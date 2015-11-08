@@ -62,6 +62,12 @@ public class uchemUI {
 		frame.setVisible(true);
 
 		JPanel topPanel = new JPanel();
+		JPanel mainWindow = new JPanel();
+		//mainWindow.setVisible(false);
+		JPanel levelsPanel = new JPanel();
+		levelsPanel.setVisible(false);
+		JPanel cPanel = new JPanel();
+		cPanel.setVisible(false);
 		// TODO: make only the bottom border appear;
 
 		topPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
@@ -70,18 +76,20 @@ public class uchemUI {
 		topPanel.setLayout(null);
 		frame.getContentPane().add(topPanel);
 
-		JPanel mainWindow = new JPanel();
+		
 		mainWindow.setBounds(0, 100, 600, 400);
 		frame.getContentPane().add(mainWindow);
 		mainWindow.setBackground(Color.decode("#568ed4"));
 		mainWindow.setLayout(null);
 		
+		CLevelFrame cLevelInitialize = new CLevelFrame(mainWindow, levelsPanel);
+		cPanel = cLevelInitialize.getCLevelPanel();
+		frame.getContentPane().add(cPanel);
+		cPanel.setVisible(false);
 		
-		mainWindow.setVisible(false);
-		
-		JPanel levelsPanel = levels( mainWindow);
+		levelsPanel = levels( mainWindow, cPanel );
 		//initially should be false
-		levelsPanel.setVisible(true);
+		levelsPanel.setVisible(false);
 		frame.getContentPane().add(levelsPanel);
 		
 		JLabel logoLabel = new JLabel("");
@@ -100,12 +108,12 @@ public class uchemUI {
 		
 		
 		mainWindow(mainWindow, levelsPanel);
+		
 
-		// InputStream input = classLoader.getResourceAsStream("logo.png");
 	}
 
 	public void mainWindow(JPanel mainWindow, JPanel levelsPanel) {
-		JButton start = createButton(mainWindow, "START", 134);
+		JButton start = createButton(mainWindow, "START", 70);
 		mainWindow.add(start);
 		
 		start.addActionListener(new ActionListener() {
@@ -115,21 +123,21 @@ public class uchemUI {
 			}
 		});
 
-		JButton dictionary = createButton(mainWindow,"DICTIONARY", 194);
+		JButton dictionary = createButton(mainWindow,"DICTIONARY", 130);
 		mainWindow.add(dictionary);
 
 		dictionary.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				mainWindow.setVisible(false);
+				//mainWindow.setVisible(false);
 			}
 		});
 
-		JButton aboutUs = createButton(mainWindow,"ABOUT US", 254);
+		JButton aboutUs = createButton(mainWindow,"ABOUT US", 190);
 		mainWindow.add(aboutUs);
 		
 		aboutUs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				mainWindow.setVisible(false);
+				//mainWindow.setVisible(false);
 			}
 		});
 	}
@@ -149,13 +157,19 @@ public class uchemUI {
 		return currentButton;
 	}
 	
-	public JPanel levels (JPanel mainWindow){
+	public JPanel levels (JPanel mainWindow, JPanel cPanel){
 		JPanel levelsPanel = new JPanel();
 		levelsPanel.setBounds(0, 100, 600, 400);
 		levelsPanel.setBackground(Color.decode("#568ed4"));
 		levelsPanel.setLayout(null);
 		JButton cLevel = createButton(levelsPanel, "C Level", 114);
 		levelsPanel.add(cLevel);
+		cLevel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				levelsPanel.setVisible(false);
+				cPanel.setVisible(true);
+			}
+		});
 		
 		JButton bLevel = createButton(levelsPanel, "B Level", 174);
 		levelsPanel.add(bLevel);
