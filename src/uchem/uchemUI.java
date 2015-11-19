@@ -61,6 +61,7 @@ public class uchemUI {
 		frame.getContentPane().setLayout(null);
 		frame.setVisible(true);
 
+		//initialization of panels
 		JPanel topPanel = new JPanel();
 		JPanel mainWindow = new JPanel();
 		//mainWindow.setVisible(false);
@@ -69,28 +70,45 @@ public class uchemUI {
 		JPanel cPanel = new JPanel();
 		cPanel.setVisible(false);
 		// TODO: make only the bottom border appear;
-
-		topPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		topPanel.setBounds(0, 0, 600, 100);
-		topPanel.setBackground(Color.decode("#126ad9"));
-		topPanel.setLayout(null);
+		QuestionsLevelFrame questionsPanel = new QuestionsLevelFrame(mainWindow, "cLevel");
+		questionsPanel.isVisible(false);
+		//topPanel settings
+		topPanel = topPanel();
 		frame.getContentPane().add(topPanel);
-
 		
+		//mainPanel settings
 		mainWindow.setBounds(0, 100, 600, 400);
 		frame.getContentPane().add(mainWindow);
 		mainWindow.setBackground(Color.decode("#568ed4"));
 		mainWindow.setLayout(null);
 		
-		CLevelFrame cLevelInitialize = new CLevelFrame(mainWindow, levelsPanel);
-		cPanel = cLevelInitialize.getCLevelPanel();
-		frame.getContentPane().add(cPanel);
+		frame.getContentPane().add(questionsPanel.getCLevelPanel());
+		//questonsLevelFrame is made better than this don't use it
+		//CLevelFrame cLevelInitialize = new CLevelFrame(mainWindow, levelsPanel);
+		//cPanel = cLevelInitialize.getCLevelPanel();
+		//frame.getContentPane().add(cPanel);
 		cPanel.setVisible(false);
 		
-		levelsPanel = levels( mainWindow, cPanel );
+		
+		levelsPanel = levels( mainWindow, questionsPanel );
 		//initially should be false
 		levelsPanel.setVisible(false);
 		frame.getContentPane().add(levelsPanel);
+		
+		
+		mainWindow(mainWindow, levelsPanel);
+		
+
+	}
+
+	public JPanel topPanel(){
+
+		JPanel topPanel = new JPanel();
+		
+		topPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
+		topPanel.setBounds(0, 0, 600, 100);
+		topPanel.setBackground(Color.decode("#126ad9"));
+		topPanel.setLayout(null);
 		
 		JLabel logoLabel = new JLabel("");
 		Image logo = new ImageIcon(this.getClass().getResource("/logo1.png")).getImage();
@@ -105,13 +123,10 @@ public class uchemUI {
 		uChemLabel.setBounds(positionY, 11, 229, 80);
 		topPanel.add(uChemLabel);
 		
-		
-		
-		mainWindow(mainWindow, levelsPanel);
-		
-
+		return topPanel;
 	}
-
+	
+	//make mainWindow a class
 	public void mainWindow(JPanel mainWindow, JPanel levelsPanel) {
 		JButton start = createButton(mainWindow, "START", 70);
 		mainWindow.add(start);
@@ -148,7 +163,7 @@ public class uchemUI {
 		JButton currentButton = new JButton(name);
 		currentButton.setForeground(Color.WHITE);
 		currentButton.setFont(new Font("Verdana", Font.PLAIN, 24));
-		
+		currentButton.setFocusPainted(false);
 		int windowWidth = window.getWidth();
 		int positionX = (windowWidth - buttonWidth) /2; 
 		currentButton.setBounds(positionX, positionY, buttonWidth, buttonHeight);
@@ -157,7 +172,7 @@ public class uchemUI {
 		return currentButton;
 	}
 	
-	public JPanel levels (JPanel mainWindow, JPanel cPanel){
+	public JPanel levels (JPanel mainWindow, QuestionsLevelFrame cPanel){
 		JPanel levelsPanel = new JPanel();
 		levelsPanel.setBounds(0, 100, 600, 400);
 		levelsPanel.setBackground(Color.decode("#568ed4"));
@@ -167,7 +182,7 @@ public class uchemUI {
 		cLevel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				levelsPanel.setVisible(false);
-				cPanel.setVisible(true);
+				cPanel.isVisible(true);
 			}
 		});
 		
