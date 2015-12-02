@@ -20,9 +20,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class uchemUI {
-
-	
-
 	/**
 	 * Launch the application.
 	 */
@@ -58,35 +55,38 @@ public class uchemUI {
 		JFrame frame = new JFrame();
 		frame.getContentPane().setForeground(Color.WHITE);
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 600, 500);
+		frame.setBounds(100, 100, 650, 550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		frame.setVisible(true);
 
 		//initialization of panels
 		StartWindow mainWindow = new StartWindow();
-		JPanel topPanel = new JPanel();
+		TopPanel topPanel = new TopPanel();
+		//LevelsPanel levelsPanel = new LevelsPanel(mainWindow.getMainPanel());
 		JPanel levelsPanel = new JPanel();
 		QuestionsLevelFrame questionsPanel = new QuestionsLevelFrame(mainWindow.getMainPanel());
 		
 		// TODO: make only the bottom border in the topPanel appear;
 		
 		//these should be false in order the mainWindow to appear only
-		levelsPanel.setVisible(false);
+		//levelsPanel.getLevelsPanel().setVisible(false);
 		questionsPanel.isVisible(false);
 		
-		
-		topPanel = topPanel();
-		
-		frame.getContentPane().add(topPanel);
+		//add panels to the frame in order to be displayed
+		frame.getContentPane().add(topPanel.getTopPanel());
 		frame.getContentPane().add(questionsPanel.getQuestionsLevelFrame());
 		frame.getContentPane().add(mainWindow.getMainPanel());
 		
+		//levelsPanel.addListenerToALevelButton(questionsPanel);
+		//levelsPanel.addListenerToBLevelButton(questionsPanel);
+		//levelsPanel.addListenerToCLevelButton(questionsPanel);
 		levelsPanel = levels( mainWindow.getMainPanel(), questionsPanel );
 		//initially should be false
 		levelsPanel.setVisible(false);
+		//frame.getContentPane().add(levelsPanel.getLevelsPanel());
 		frame.getContentPane().add(levelsPanel);
-		
+		//mainWindow.addListenerToStartButton(levelsPanel.getLevelsPanel());
 		mainWindow.addListenerToStartButton(levelsPanel);
 		
 		//mainWindow(mainWindow, levelsPanel);
@@ -94,53 +94,12 @@ public class uchemUI {
 
 	}
 
-	public JPanel topPanel(){
-
-		JPanel topPanel = new JPanel();
-		
-		topPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
-		topPanel.setBounds(0, 0, 600, 100);
-		topPanel.setBackground(Color.decode("#126ad9"));
-		topPanel.setLayout(null);
-		
-		JLabel logoLabel = new JLabel("");
-		Image logo = new ImageIcon(this.getClass().getResource("/logo1.png")).getImage();
-		logoLabel.setIcon(new ImageIcon(logo));
-		logoLabel.setBounds(0, 11, 65, 80);
-		topPanel.add(logoLabel);
-
-		int positionY = (topPanel.getWidth() - 229)/2;
-		JLabel uChemLabel = new JLabel("");
-		Image uChemLogo = new ImageIcon(this.getClass().getResource("/uChem1.png")).getImage();
-		uChemLabel.setIcon(new ImageIcon(uChemLogo));
-		uChemLabel.setBounds(positionY, 11, 229, 80);
-		topPanel.add(uChemLabel);
-		
-		return topPanel;
-	}
-	
-
-	public JButton createButton(JPanel window, String name, int positionY) {
-		int buttonWidth = 190;
-		int buttonHeight = 50;
-		JButton currentButton = new JButton(name);
-		currentButton.setForeground(Color.WHITE);
-		currentButton.setFont(new Font("Verdana", Font.PLAIN, 24));
-		currentButton.setFocusPainted(false);
-		int windowWidth = window.getWidth();
-		int positionX = (windowWidth - buttonWidth) /2; 
-		currentButton.setBounds(positionX, positionY, buttonWidth, buttonHeight);
-		currentButton.setBackground(Color.decode("#1458ae"));
-
-		return currentButton;
-	}
-	
 	public JPanel levels (JPanel mainWindow, QuestionsLevelFrame questionsLevelFrame){
 		JPanel levelsPanel = new JPanel();
-		levelsPanel.setBounds(0, 100, 600, 400);
+		levelsPanel.setBounds(0, 100, 650, 450);
 		levelsPanel.setBackground(Color.decode("#568ed4"));
 		levelsPanel.setLayout(null);
-		JButton cLevel = createButton(levelsPanel, "C Level", 114);
+		JButton cLevel = MainMethods.createButton(levelsPanel, "C Level", 114);
 		levelsPanel.add(cLevel);
 		cLevel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -150,7 +109,7 @@ public class uchemUI {
 			}
 		});
 		
-		JButton bLevel = createButton(levelsPanel, "B Level", 174);
+		JButton bLevel = MainMethods.createButton(levelsPanel, "B Level", 174);
 		bLevel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				levelsPanel.setVisible(false);
@@ -160,7 +119,7 @@ public class uchemUI {
 		});
 		levelsPanel.add(bLevel);
 		
-		JButton aLevel = createButton(levelsPanel, "A Level", 234);
+		JButton aLevel = MainMethods.createButton(levelsPanel, "A Level", 234);
 		aLevel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				levelsPanel.setVisible(false);
@@ -170,7 +129,15 @@ public class uchemUI {
 		});
 		levelsPanel.add(aLevel);
 		
-		JButton combined = createButton(levelsPanel, "Combined", 294);
+		//error on the 7th question
+		JButton combined = MainMethods.createButton(levelsPanel, "ALL ABOVE", 294);
+		combined.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				levelsPanel.setVisible(false);
+				questionsLevelFrame.isVisible(true);
+				questionsLevelFrame.setCurrentLevel("all");
+			}
+		});
 		levelsPanel.add(combined);
 		
 		int positionY = (levelsPanel.getWidth() - 300)/2;

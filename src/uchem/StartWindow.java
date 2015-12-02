@@ -1,7 +1,6 @@
 package uchem;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,7 +15,7 @@ public class StartWindow {
 	//StartWindow is the main application panel
 	public StartWindow(){
 		//panel settings
-		mainWindow.setBounds(0, 100, 600, 400);
+		mainWindow.setBounds(0, 100, 650, 450);
 		mainWindow.setBackground(Color.decode("#568ed4"));
 		mainWindow.setLayout(null);
 		
@@ -55,6 +54,15 @@ public class StartWindow {
 	}
 	//the method attaches an action listener to a specific button
 	public void addListenerToAboutUsButton(JPanel panel){
+		aboutUs.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				mainWindow.setVisible(false);
+				panel.setVisible(true);
+			}
+		});
+	}
+	
+	public void addListenerToAboutUsButton(JButton button, JPanel panel){
 		aboutUs.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				mainWindow.setVisible(false);
